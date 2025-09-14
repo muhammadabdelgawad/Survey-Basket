@@ -9,7 +9,7 @@ namespace SurveyBasket.Controllers
     {
         private readonly IPollService _pollService = pollService;
 
-        [HttpGet("TestGet")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             return Ok(_pollService.GetAll());
@@ -30,6 +30,25 @@ namespace SurveyBasket.Controllers
             return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Poll request)
+        {
+            var isUpdated = _pollService.Update(id, request);
+            if (!isUpdated)
+                return NotFound();
+                        
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var isDeleted = _pollService.Delete(id);
+            if (!isDeleted)
+                return NotFound();
+            return NoContent();
+        }
+            
 
 
 
