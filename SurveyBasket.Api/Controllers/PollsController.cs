@@ -1,4 +1,6 @@
-﻿using SurveyBasket.Services;
+﻿using SurveyBasket.Contracts.Requests;
+using SurveyBasket.Mapping;
+using SurveyBasket.Services;
 
 namespace SurveyBasket.Controllers
 
@@ -12,28 +14,29 @@ namespace SurveyBasket.Controllers
         [HttpGet()]
         public IActionResult GetAll()
         {
-            return Ok(_pollService.GetAll());
-        }
+            var polls = _pollService.GetAll();  
+            return Ok(polls.MapToResponse());
+        } 
 
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var polls =_pollService.Get(id);
-            return polls is null ? NotFound() : Ok(polls);
+            var poll =_pollService.Get(id);
+            return poll is null ? NotFound() : Ok(poll.MapToResponse());
         }
 
         [HttpPost]
-        public IActionResult Add(Poll request) 
+        public IActionResult Add(CreatePollRequest request) 
         {
-            var newPoll= _pollService.Add(request);
+            var newPoll= _pollService.Add(request.MapToPoll());
             return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, Poll request)
+        public IActionResult Update(int id, CreatePollRequest request)
         {
-            var isUpdated = _pollService.Update(id, request);
+            var isUpdated = _pollService.Update(id, request.MapToPoll());
             if (!isUpdated)
                 return NotFound();
                         
