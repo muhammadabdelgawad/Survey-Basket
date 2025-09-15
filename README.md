@@ -16,12 +16,12 @@ This API allows you to:
 
 *   ASP.NET Core
 *   C#
-*   .NET 8 (Implicitly based on Program.cs and general best practices)
+*   .NET 9 (Implicitly based on Program.cs and general best practices)
 *   Swagger/OpenAPI for API documentation
 
 ## Prerequisites
 
-*   .NET SDK 8.0 or higher
+*   .NET SDK 9.0 or higher
 *   An IDE or text editor (e.g., Visual Studio, Visual Studio Code, Rider)
 
 ## Installation Instructions
