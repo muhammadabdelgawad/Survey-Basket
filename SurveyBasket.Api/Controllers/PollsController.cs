@@ -1,4 +1,5 @@
 ﻿using MapsterMapper;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace SurveyBasket.Controllers
 
@@ -25,11 +26,19 @@ namespace SurveyBasket.Controllers
             var poll = _pollService.Get(id);
             var response = poll.Adapt<PollResponse>();
             return poll is null ? NotFound() : Ok(response);
-        }
+        } 
 
         [HttpPost]
-        public IActionResult Add(CreatePollRequest request)
+        public IActionResult Add(CreatePollRequest request,
+            [FromServices] IValidator<CreatePollRequest> validator)
         {
+            var validationResult= validator.Validate(request);
+            if (!validationResult.IsValid)
+            {
+                var modelState = new ModelStateDictionary();
+                validationResult.Errors.ForEach(x => modelState.AddModelError(x.PropertyName, x.ErrorMessage));
+
+            }
             var newPoll = _pollService.Add(request.Adapt<Poll>());
             return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
         }
