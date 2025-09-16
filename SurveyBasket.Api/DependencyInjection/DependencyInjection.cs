@@ -1,8 +1,5 @@
 ﻿using MapsterMapper;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-
 namespace SurveyBasket.DependencyInjection
 {
     public static class DependencyInjection
