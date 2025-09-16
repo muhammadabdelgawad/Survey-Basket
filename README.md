@@ -1,50 +1,54 @@
-# SurveyBasket
+# Survey-Basket
 
-A simple ASP.NET Core Web API for managing polls.
+## Description
+
+This is a simple ASP.NET Core Web API for managing polls. It provides endpoints for creating, reading, updating, and deleting polls.
 
 ## Features and Functionality
 
-This API allows you to:
-
-*   Retrieve a list of all polls.
-*   Retrieve a specific poll by its ID.
-*   Create a new poll.
-*   Update an existing poll.
-*   Delete a poll.
+*   **Get All Polls:** Retrieves a list of all polls.
+*   **Get Poll by ID:** Retrieves a specific poll by its ID.
+*   **Add Poll:** Creates a new poll.
+*   **Update Poll:** Updates an existing poll.
+*   **Delete Poll:** Deletes a poll.
+*   **Input Validation:** Uses FluentValidation to validate poll creation and update requests.
 
 ## Technology Stack
 
-*   ASP.NET Core
-*   C#
-*   .NET 9 (Implicitly based on Program.cs and general best practices)
-*   Swagger/OpenAPI for API documentation
+*   **ASP.NET Core:** Web framework.
+*   **C#:** Programming language.
+*   **.NET 8 (Assumed):** .NET runtime.
+*   **Mapster:** Object-to-object mapper.
+*   **FluentValidation:** Validation library.
+*   **Swagger/OpenAPI:** API documentation.
 
 ## Prerequisites
 
-*   .NET SDK 9.0 or higher
-*   An IDE or text editor (e.g., Visual Studio, Visual Studio Code, Rider)
+*   [.NET SDK](https://dotnet.microsoft.com/en-us/download) (version 8 or later, assumed)
+*   An IDE such as Visual Studio or VS Code.
 
 ## Installation Instructions
 
-1.  Clone the repository:
+1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/muhammadabdelgawad/SurveyBasket.git
+    git clone https://github.com/muhammadabdelgawad/Survey-Basket.git
+    cd Survey-Basket
     ```
 
-2.  Navigate to the `SurveyBasket.Api` directory:
+2.  **Navigate to the `SurveyBasket.Api` directory:**
 
     ```bash
     cd SurveyBasket.Api
     ```
 
-3.  Restore NuGet packages:
+3.  **Restore NuGet packages:**
 
     ```bash
     dotnet restore
     ```
 
-4.  Build the project:
+4.  **Build the project:**
 
     ```bash
     dotnet build
@@ -52,106 +56,60 @@ This API allows you to:
 
 ## Usage Guide
 
-1.  Run the application:
+1.  **Run the application:**
 
     ```bash
     dotnet run
     ```
 
-2.  Access the API endpoints using a tool like Postman, Insomnia, or Swagger UI.  Swagger UI is enabled by default in development mode.
+2.  **Access the Swagger UI:**
 
-    *   In your browser, navigate to `https://localhost:<port>/swagger/index.html` or `http://localhost:<port>/swagger/index.html` (depending on your HTTPS configuration) to view the Swagger UI. The port number will be displayed in the console when the application starts.
+    Open your browser and navigate to `https://localhost:{port}/swagger/index.html`, where `{port}` is the port number your application is running on (typically 5001 for HTTPS or 5000 for HTTP, you can confirm this in the console output when running the application).
+
+3.  **Use the API endpoints:**
+
+    Use the Swagger UI to interact with the API endpoints or use a tool like Postman or curl.  Here are some examples:
+
+    *   **Get All Polls:** `GET /api/Polls`
+    *   **Get Poll by ID:** `GET /api/Polls/{id}`
+    *   **Add Poll:** `POST /api/Polls`
+
+        Request body example:
+
+        ```json
+        {
+          "id": 0,
+          "tittle": "My New Poll",
+          "description": "This is a description of my new poll."
+        }
+        ```
+
+    *   **Update Poll:** `PUT /api/Polls/{id}`
+
+        Request body example:
+
+        ```json
+        {
+          "id": 0,
+          "tittle": "Updated Poll Title",
+          "description": "Updated poll description."
+        }
+        ```
+
+    *   **Delete Poll:** `DELETE /api/Polls/{id}`
 
 ## API Documentation
 
-The API exposes the following endpoints:
-
-**PollsController.cs** located in the `/SurveyBasket.Api/Controllers` folder implements the following Endpoints.
-
-*   **GET `/api/Polls`**: Retrieves all polls.
-    *   Response:
-        ```json
-        [
-            {
-                "id": 1,
-                "tittle": "Poll 1",
-                "description": "This is my first poll"
-            }
-        ]
-        ```
-
-*   **GET `/api/Polls/{id}`**: Retrieves a poll by ID.
-    *   Parameters:
-        *   `id` (integer): The ID of the poll to retrieve.
-    *   Response:
-        ```json
-        {
-            "id": 1,
-            "tittle": "Poll 1",
-            "description": "This is my first poll"
-        }
-        ```
-    *   Returns a 404 Not Found if the poll does not exist.
-
-*   **POST `/api/Polls`**: Creates a new poll.
-    *   Request body (JSON): Located in `SurveyBasket.Api/Contracts/Requests/CreatePollRequest.cs`
-        ```json
-        {
-            "tittle": "New Poll Title",
-            "description": "New Poll Description"
-        }
-        ```
-    *   Response:
-        *   201 Created - Returns the newly created poll with its ID in the `Location` header.  The response body will contain the newly created poll.
-        ```json
-           {
-                "id": 2,
-                "tittle": "New Poll Title",
-                "description": "New Poll Description"
-            }
-        ```
-
-*   **PUT `/api/Polls/{id}`**: Updates an existing poll.
-    *   Parameters:
-        *   `id` (integer): The ID of the poll to update.
-    *   Request body (JSON): Located in `SurveyBasket.Api/Contracts/Requests/CreatePollRequest.cs`
-        ```json
-        {
-            "tittle": "Updated Poll Title",
-            "description": "Updated Poll Description"
-        }
-        ```
-    *   Response:
-        *   204 No Content - Returns a 204 status code on success.
-    *   Returns a 404 Not Found if the poll does not exist.
-
-*   **DELETE `/api/Polls/{id}`**: Deletes a poll.
-    *   Parameters:
-        *   `id` (integer): The ID of the poll to delete.
-    *   Response:
-        *   204 No Content - Returns a 204 status code on success.
-    *   Returns a 404 Not Found if the poll does not exist.
-
-**Request and Response Contracts:**
-
-The request and response objects are defined in the `SurveyBasket.Api/Contracts` directory.
-*   `CreatePollRequest.cs` defines the request body for creating a poll.
-*   `PollResponse.cs` defines the structure of the poll response.
-
-**Mappings**
-
-The `SurveyBasket.Api/Mapping/ContractMapping.cs` defines extension methods for mapping between the `Poll` model and the request and response contracts.
+The API documentation is generated using Swagger/OpenAPI.  You can access it by navigating to `https://localhost:{port}/swagger/index.html` in your browser after running the application. The generated documentation describes all available endpoints, request/response formats, and status codes.
 
 ## Contributing Guidelines
 
-Contributions are welcome! Please follow these guidelines:
+Contributions are welcome! Here are the general guidelines:
 
 1.  Fork the repository.
 2.  Create a new branch for your feature or bug fix.
-3.  Make your changes and commit them with descriptive messages.
+3.  Make your changes and commit them with clear, concise messages.
 4.  Submit a pull request.
 
-## License Information
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Please ensure your code adheres to the existing coding style and includes appropriate unit tests.
 
