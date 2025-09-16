@@ -11,19 +11,37 @@ namespace SurveyBasket.DependencyInjection
         {
 
             services.AddControllers();
+            services.AddSwaggerServices()
+                    .AddMapsterConfig()
+                    .AddFluentValidationConfig();
 
             services.AddOpenApi();
+            
+            services.AddScoped<IPollService, PollService>();
+           
+            return services;
+        }
+        public static IServiceCollection AddSwaggerServices(this IServiceCollection services)
+        {
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            services.AddScoped<IPollService, PollService>();
-            //Add Mapster
+
+            return services;
+        }
+        public static IServiceCollection AddMapsterConfig(this IServiceCollection services)
+        {
             var mappingConfig = TypeAdapterConfig.GlobalSettings;
             mappingConfig.Scan(Assembly.GetExecutingAssembly());
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
-            //Add FluentValidation
-            services
-                .AddFluentValidationAutoValidation()
-                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            return services;
+        }
+        public static IServiceCollection AddFluentValidationConfig(this IServiceCollection services)
+        {
+            var mappingConfig = TypeAdapterConfig.GlobalSettings;
+            mappingConfig.Scan(Assembly.GetExecutingAssembly());
+            services.AddSingleton<IMapper>(new Mapper(mappingConfig));
+
             return services;
         }
 
