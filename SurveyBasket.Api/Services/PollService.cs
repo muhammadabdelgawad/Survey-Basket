@@ -1,10 +1,9 @@
-﻿
-namespace SurveyBasket.Services
+﻿namespace SurveyBasket.Services
 {
     public class PollService : IPollService
     {
         private static readonly List<Poll> _polls = [
-            new Poll{ Id= 1, Tittle= "Poll 1", Description= "This is my first poll"}];
+            new Poll{ Id= 1, Tittle= "Poll 1", Summary= "This is my first poll"}];
 
         public IEnumerable<Poll> GetAll() =>_polls;
 
@@ -23,7 +22,7 @@ namespace SurveyBasket.Services
             if (currentPoll is null) 
                 return false;
             currentPoll.Tittle = poll.Tittle;
-            currentPoll.Description = poll.Description;
+            currentPoll.Summary = poll.Summary;
             return true;
         }
 
