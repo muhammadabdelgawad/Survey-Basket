@@ -7,11 +7,11 @@ namespace SurveyBasket.Contracts.Validations
         {
             RuleFor(x => x.Tittle)
                 .NotEmpty()
-                .Length(5, 100);
+                .Length(3, 100);
 
-            RuleFor(x => x.Description)
+            RuleFor(x => x.Summary)
                 .NotEmpty()
-                .Length(5, 1000);
+                .Length(5, 1500);
         }
     }
 }

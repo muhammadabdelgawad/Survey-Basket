@@ -1,4 +1,10 @@
 ﻿namespace SurveyBasket.Contracts.Requests
 {
-    public record CreatePollRequest(int Id, string Tittle, string Description);
+    public record CreatePollRequest(
+        string Tittle,
+        string Summary,
+        bool Ispublished,
+        DateOnly StartsAt,
+        DateOnly EndsAt
+    );
 }

@@ -1,38 +1,38 @@
-﻿namespace SurveyBasket.Services
+﻿
+namespace SurveyBasket.Services
 {
-    public class PollService : IPollService
-    {
-        private static readonly List<Poll> _polls = [
-            new Poll{ Id= 1, Tittle= "Poll 1", Summary= "This is my first poll"}];
+    public class PollService(AppDbContext context) : IPollService
+    {private readonly AppDbContext _dbContext = context;
 
-        public IEnumerable<Poll> GetAll() =>_polls;
+        public async Task<IEnumerable<Poll>> GetAllAsync()
+            => await _dbContext.Polls.AsNoTracking().ToListAsync();
 
-        public Poll? Get(int id) =>_polls.SingleOrDefault(x => x.Id == id);
+        public async Task<Poll?> GetAsync(int id) =>await  _dbContext.Polls.FindAsync(id);
 
-        public Poll Add(Poll poll)
+        public async Task<Poll> AddAsync(Poll poll)
         {
-            poll.Id = _polls.Count + 1;
-           _polls.Add(poll);
+            await _dbContext.Polls.AddAsync(poll);
+            await _dbContext.SaveChangesAsync();
             return poll;
         }
 
-        public bool Update(int id, Poll poll)
-        {
-           var currentPoll = Get(id);
-            if (currentPoll is null) 
-                return false;
-            currentPoll.Tittle = poll.Tittle;
-            currentPoll.Summary = poll.Summary;
-            return true;
-        }
+        //public bool Update(int id, Poll poll)
+        //{
+        //   var currentPoll = Get(id);
+        //    if (currentPoll is null) 
+        //        return false;
+        //    currentPoll.Tittle = poll.Tittle;
+        //    currentPoll.Summary = poll.Summary;
+        //    return true;
+        //}
 
-        public bool Delete(int id)
-        {
-            var poll = Get(id);
-            if (poll is null)
-                return false;
-            _polls.Remove(poll);
-            return true;
-        }
+        //public bool Delete(int id)
+        //{
+        //    var poll = Get(id);
+        //    if (poll is null)
+        //        return false;
+        //    _polls.Remove(poll);
+        //    return true;
+        //}
     }
 }
