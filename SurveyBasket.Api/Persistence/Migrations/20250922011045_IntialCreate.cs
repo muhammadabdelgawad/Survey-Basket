@@ -17,7 +17,7 @@ namespace SurveyBasket.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Tittle = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Summary = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     IsPublished = table.Column<bool>(type: "bit", nullable: false),
                     StartsAt = table.Column<DateOnly>(type: "date", nullable: false),
@@ -29,7 +29,7 @@ namespace SurveyBasket.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Polls_Tittle",
+                name: "IX_Polls_Title",
                 table: "Polls",
                 column: "Title",
                 unique: true);

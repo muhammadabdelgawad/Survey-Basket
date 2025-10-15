@@ -29,31 +29,31 @@ namespace SurveyBasket.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Add([FromBody] CreatePollRequest request,CancellationToken cancellationToken)
+        public async Task<IActionResult> Add([FromBody] PollRequest request,CancellationToken cancellationToken)
         {
             var newPoll = await _pollService.AddAsync(request.Adapt<Poll>(),cancellationToken);
 
             return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
         }
 
-        //[HttpPut("{id}")]
-        //public IActionResult Update(int id, CreatePollRequest request)
-        //{
-        //    var isUpdated = _pollService.Update(id, request.Adapt<Poll>());
-        //    if (!isUpdated)
-        //        return NotFound();
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, PollRequest request,CancellationToken cancellationToken)
+        {
+            var isUpdated = await _pollService.UpdateAsync(id, request.Adapt<Poll>(),cancellationToken);
+            if (!isUpdated)
+                return NotFound();
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(int id)
-        //{
-        //    var isDeleted = _pollService.Delete(id);
-        //    if (!isDeleted)
-        //        return NotFound();
-        //    return NoContent();
-        //}
+        [HttpDelete("{id}")]
+        public async  Task<IActionResult> Delete(int id,CancellationToken cancellationToken)
+        {
+            var isDeleted =await _pollService.DeleteAsync(id,cancellationToken);
+            if (!isDeleted)
+                return NotFound();
+            return NoContent();
+        }
 
 
 

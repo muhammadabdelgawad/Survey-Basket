@@ -25,16 +25,21 @@ namespace SurveyBasket.Services
                 return false;
             currentPoll.Title = poll.Title;
             currentPoll.Summary = poll.Summary;
+            currentPoll.StartsAt = poll.StartsAt;
+            currentPoll.EndsAt= poll.EndsAt;
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
             return true;
         }
 
-        //public bool Delete(int id)
-        //{
-        //    var poll = Get(id);
-        //    if (poll is null)
-        //        return false;
-        //    _polls.Remove(poll);
-        //    return true;
-        //}
+        public async Task<bool> DeleteAsync(int id,CancellationToken cancellationToken)
+        {
+            var poll = await GetAsync(id,cancellationToken);
+            if (poll is null)
+                return false;
+            _dbContext.Remove(poll);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return true;
+        }
     }
 }

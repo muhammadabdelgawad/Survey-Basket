@@ -2,7 +2,7 @@
 {
     public record PollResponse(
         int Id,
-        string Tittle,
+        string Title,
         string Summary,
         bool Ispublished,
         DateOnly StartsAt,
