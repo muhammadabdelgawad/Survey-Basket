@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.Entities
+﻿ namespace SurveyBasket.Entities
 {
     public sealed class Poll
     {
