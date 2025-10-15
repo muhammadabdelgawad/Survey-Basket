@@ -41,5 +41,16 @@ namespace SurveyBasket.Services
             await _dbContext.SaveChangesAsync(cancellationToken);
             return true;
         }
+
+        public async Task<bool> TogglePublishStatusAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var poll = await GetAsync(id,cancellationToken);
+            if (poll is null)
+                return false;
+            poll.IsPublished = !poll.IsPublished;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return true;
+
+        }
     }
 }
