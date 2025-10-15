@@ -12,18 +12,18 @@ namespace SurveyBasket.Controllers
         //private readonly IMapper _mapper = mapper;
 
         [HttpGet()]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var polls = await _pollService.GetAllAsync();
+            var polls = await _pollService.GetAllAsync(cancellationToken);
             var response = polls.Adapt<IEnumerable<PollResponse>>();
             return Ok(response);
         }
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute]int id)
+        public async Task<IActionResult> Get([FromRoute]int id, CancellationToken cancellationToken)
         {
-            var poll = await _pollService.GetAsync(id);
+            var poll = await _pollService.GetAsync(id,cancellationToken);
             var response = poll.Adapt<PollResponse>();
             return poll is null ? NotFound() : Ok(response);
         }

@@ -5,15 +5,16 @@ namespace SurveyBasket.Services
     {
         private readonly AppDbContext _dbContext = context;
 
-        public async Task<IEnumerable<Poll>> GetAllAsync()
-            => await _dbContext.Polls.AsNoTracking().ToListAsync();
+        public async Task<IEnumerable<Poll>> GetAllAsync(CancellationToken cancellationToken =default)
+            => await _dbContext.Polls.AsNoTracking().ToListAsync(cancellationToken);
 
-        public async Task<Poll?> GetAsync(int id) =>await  _dbContext.Polls.FindAsync(id);
+        public async Task<Poll?> GetAsync(int id, CancellationToken cancellationToken=default)
+            =>await  _dbContext.Polls.FindAsync(id, cancellationToken);
 
         public async Task<Poll> AddAsync(Poll poll, CancellationToken cancellationToken)
         {
-            await _dbContext.Polls.AddAsync(poll);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.Polls.AddAsync(poll, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
             return poll;
         }
 
