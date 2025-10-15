@@ -31,7 +31,7 @@ namespace SurveyBasket.Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Polls_Tittle",
                 table: "Polls",
-                column: "Tittle",
+                column: "Title",
                 unique: true);
         }
 

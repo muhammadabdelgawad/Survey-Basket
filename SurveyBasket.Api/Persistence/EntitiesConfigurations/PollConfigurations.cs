@@ -4,9 +4,9 @@
     {
         public void Configure(EntityTypeBuilder<Poll> builder)
         {
-            builder.HasIndex(p => p.Tittle).IsUnique();
+            builder.HasIndex(p => p.Title).IsUnique();
 
-            builder.Property(p => p.Tittle).HasMaxLength(200)
+            builder.Property(p => p.Title).HasMaxLength(200)
                                            .IsRequired();
             builder.Property(p => p.Summary).HasMaxLength(2000);
            

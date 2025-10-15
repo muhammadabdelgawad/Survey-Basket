@@ -47,14 +47,14 @@ namespace SurveyBasket.Persistence.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
-                    b.Property<string>("Tittle")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Tittle")
+                    b.HasIndex("Title")
                         .IsUnique();
 
                     b.ToTable("Polls");

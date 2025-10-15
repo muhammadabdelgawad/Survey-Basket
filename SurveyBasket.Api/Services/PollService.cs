@@ -18,15 +18,15 @@ namespace SurveyBasket.Services
             return poll;
         }
 
-         //public bool Update(int id, Poll poll)
-        //{
-        //   var currentPoll = Get(id);
-        //    if (currentPoll is null) 
-        //        return false;
-        //    currentPoll.Tittle = poll.Tittle;
-        //    currentPoll.Summary = poll.Summary;
-        //    return true;
-        //}
+        public async Task<bool> UpdateAsync(int id, Poll poll, CancellationToken cancellationToken = default)
+        {
+            var currentPoll = await GetAsync(id,cancellationToken);
+            if (currentPoll is null)
+                return false;
+            currentPoll.Title = poll.Title;
+            currentPoll.Summary = poll.Summary;
+            return true;
+        }
 
         //public bool Delete(int id)
         //{
