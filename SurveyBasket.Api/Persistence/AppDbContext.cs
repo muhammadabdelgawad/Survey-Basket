@@ -1,10 +1,12 @@
-﻿using System.Reflection;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Reflection;
 
 namespace SurveyBasket.Persistence
 {
-    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+    public class AppDbContext(DbContextOptions<AppDbContext> options) :
+        IdentityDbContext<ApplicationUser>(options)
     {
-      
+
         public DbSet<Poll> Polls { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
