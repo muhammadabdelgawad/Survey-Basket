@@ -1,5 +1,4 @@
 ﻿using MapsterMapper;
-using SurveyBasket.Persistence;
 using System.Reflection;
 namespace SurveyBasket.DependencyInjection
 {
@@ -16,6 +15,7 @@ namespace SurveyBasket.DependencyInjection
 
             services.AddOpenApi();
 
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPollService, PollService>();
 
             return services;
