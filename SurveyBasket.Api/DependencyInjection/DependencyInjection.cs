@@ -1,4 +1,9 @@
 ﻿
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using SurveyBasket.Authentication;
+using System.Text;
+
 namespace SurveyBasket.DependencyInjection
 {
     public static class DependencyInjection
@@ -57,8 +62,29 @@ namespace SurveyBasket.DependencyInjection
        
         public static IServiceCollection AddAuthConfig(this IServiceCollection services)
         {
+            services.AddSingleton<IJwtProvider, JwtProvider>();
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("WU2ZAySwoVBAIO67hZs1E5JPVytwL9DB")),
+                        ValidIssuer = "SurveyBasketApp",
+                        ValidAudience = "SurveyBasketApp users"
+                    };
+                });
 
             return services;
         }
