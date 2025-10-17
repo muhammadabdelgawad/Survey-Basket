@@ -1,12 +1,11 @@
-﻿using MapsterMapper;
-using System.Reflection;
+﻿
 namespace SurveyBasket.DependencyInjection
 {
     public static class DependencyInjection
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-          
+            services.AddAuthConfig();
             services.AddDatabaseServices(configuration);
             services.AddControllers();
             services.AddSwaggerServices()
@@ -52,6 +51,14 @@ namespace SurveyBasket.DependencyInjection
             var mappingConfig = TypeAdapterConfig.GlobalSettings;
             mappingConfig.Scan(Assembly.GetExecutingAssembly());
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
+
+            return services;
+        }
+       
+        public static IServiceCollection AddAuthConfig(this IServiceCollection services)
+        {
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>();
 
             return services;
         }

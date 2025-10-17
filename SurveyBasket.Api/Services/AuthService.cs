@@ -8,7 +8,7 @@ namespace SurveyBasket.Services
         private readonly UserManager<ApplicationUser> _userManager = userManager;
 
         public async Task<AuthResponse?> GetTokenAsync(string email, string password,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             //check user in db
             var user = await _userManager.FindByEmailAsync(email);
@@ -22,7 +22,7 @@ namespace SurveyBasket.Services
 
 
             //return AuthResponse
-            return new AuthResponse(Guid.NewGuid().ToString(),"test123@gmail.com", "Muhammad", "Ahmed", 
+            return new AuthResponse(user.Id,user.Email,user.FirstName,user.LastName, 
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30", 3600);
 
         }
