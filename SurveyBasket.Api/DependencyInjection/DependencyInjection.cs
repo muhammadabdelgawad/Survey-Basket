@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using SurveyBasket.Authentication;
 using System.Text;
@@ -10,7 +9,9 @@ namespace SurveyBasket.DependencyInjection
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
+          
             services.AddAuthConfig(configuration);
+          
             services.AddDatabaseServices(configuration);
             services.AddControllers();
             services.AddSwaggerServices()
@@ -62,10 +63,15 @@ namespace SurveyBasket.DependencyInjection
        
         public static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IJwtProvider, JwtProvider>();
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddSingleton<IJwtProvider, JwtProvider>();
+
+            services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
+
+            var jwtSettings = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -80,9 +86,9 @@ namespace SurveyBasket.DependencyInjection
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
-                        ValidIssuer = configuration["Jwt:Issuer"],
-                        ValidAudience = configuration["Jwt:Audience"]
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.Key!)),
+                        ValidIssuer = jwtSettings?.Issuer,
+                        ValidAudience = jwtSettings?.Audience
                     };
                 });
             
