@@ -10,7 +10,7 @@ namespace SurveyBasket.DependencyInjection
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthConfig();
+            services.AddAuthConfig(configuration);
             services.AddDatabaseServices(configuration);
             services.AddControllers();
             services.AddSwaggerServices()
@@ -60,7 +60,7 @@ namespace SurveyBasket.DependencyInjection
             return services;
         }
        
-        public static IServiceCollection AddAuthConfig(this IServiceCollection services)
+        public static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IJwtProvider, JwtProvider>();
 
@@ -80,11 +80,12 @@ namespace SurveyBasket.DependencyInjection
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("WU2ZAySwoVBAIO67hZs1E5JPVytwL9DB")),
-                        ValidIssuer = "SurveyBasketApp",
-                        ValidAudience = "SurveyBasketApp users"
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
+                        ValidIssuer = configuration["Jwt:Issuer"],
+                        ValidAudience = configuration["Jwt:Audience"]
                     };
                 });
+            
 
             return services;
         }

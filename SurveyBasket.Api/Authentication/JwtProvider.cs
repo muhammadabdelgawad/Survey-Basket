@@ -18,7 +18,7 @@ namespace SurveyBasket.Authentication
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             ];
             
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("WU2ZAySwoVBAIO67hZs1E5JPVytwL9DB"));
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(""));
 
             var signingCredintials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
             var expiresIn = 60;
