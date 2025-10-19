@@ -23,6 +23,12 @@ namespace SurveyBasket.Controllers
             var authResult = await _authService.GetRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
             return authResult is null ? BadRequest("Invalid Token") : Ok(authResult);
         }
+        [HttpPost("revoke-refresh-token")]
+        public async Task<IActionResult> RevokeRefreshAsync([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
+        {
+            var isRevoke = await _authService.RevokeRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
+            return isRevoke ? Ok(): BadRequest("Invalid Token");
+        }
         
 
     }
