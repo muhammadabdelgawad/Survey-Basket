@@ -16,6 +16,13 @@ namespace SurveyBasket.Controllers
             var authResult = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
             return authResult is null ? BadRequest("Invalid email or password") : Ok(authResult);
         }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshAsync([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
+        {
+            var authResult = await _authService.GetRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
+            return authResult is null ? BadRequest("Invalid Token") : Ok(authResult);
+        }
         
 
     }

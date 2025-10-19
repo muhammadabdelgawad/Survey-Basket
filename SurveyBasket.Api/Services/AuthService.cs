@@ -24,7 +24,7 @@ namespace SurveyBasket.Services
             
             var (token, expiresIn) = _jwtProvider.GenerateToken(user);
 
-            var refreshToken = GenerateResfreshToken();
+            var refreshToken = GenerateRefreshToken();
 
             var refreshTokenExpiration = DateTime.UtcNow.AddDays(_refreshTokenExpiryDays);
 
@@ -43,7 +43,7 @@ namespace SurveyBasket.Services
 
         public async Task<AuthResponse?> GetRefreshTokenAsync(string token, string refreshToken, CancellationToken cancellationToken = default)
         {
-            var userId= _jwtProvider.ValidateToken(token);
+            var userId = _jwtProvider.ValidateToken(token);
 
             if (userId is null)
                 return null;
@@ -53,17 +53,15 @@ namespace SurveyBasket.Services
             if (user is null)
                 return null;
 
-            var userRefreshToken =  user.RefreshTokens.SingleOrDefault(x =>x.Token == refreshToken && x.IsActive);
-            
+            var userRefreshToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken && x.IsActive);
+
             if (userRefreshToken is null)
                 return null;
 
             userRefreshToken.RevokedOn = DateTime.UtcNow;
 
             var (newToken, expiresIn) = _jwtProvider.GenerateToken(user);
-
-            var newRefreshToken = GenerateResfreshToken();
-
+            var newRefreshToken = GenerateRefreshToken();
             var refreshTokenExpiration = DateTime.UtcNow.AddDays(_refreshTokenExpiryDays);
 
             user.RefreshTokens.Add(new RefreshToken
@@ -71,13 +69,14 @@ namespace SurveyBasket.Services
                 Token = newRefreshToken,
                 ExpiresOn = refreshTokenExpiration
             });
+
             await _userManager.UpdateAsync(user);
 
-            return new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName,
-               newToken, expiresIn, newRefreshToken, refreshTokenExpiration);
+            return new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, newToken, expiresIn, newRefreshToken, refreshTokenExpiration);
         }
 
-        private static string GenerateResfreshToken()
+
+        private static string GenerateRefreshToken()
         {
             return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
         }
