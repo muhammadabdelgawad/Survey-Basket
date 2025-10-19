@@ -12,4 +12,5 @@ global using SurveyBasket.Contracts.Auth;
 global using MapsterMapper;
 global using Microsoft.AspNetCore.Identity;
 global using System.Reflection;
-global using Microsoft.AspNetCore.Http;
+global using Microsoft.Extensions.Options;
+

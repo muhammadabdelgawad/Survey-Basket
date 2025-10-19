@@ -16,11 +16,7 @@ namespace SurveyBasket.Controllers
             var authResult = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
             return authResult is null ? BadRequest("Invalid email or password") : Ok(authResult);
         }
-        [HttpGet("test")]
-        public IActionResult Test()
-        {
-            return Ok(_jwtOptions.Issuer);
+        
 
-        }
     }
 }
