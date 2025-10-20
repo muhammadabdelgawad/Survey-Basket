@@ -9,9 +9,17 @@ namespace SurveyBasket.DependencyInjection
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-          
+            services.AddCors(options =>
+               options.AddDefaultPolicy(builder =>
+                  builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader()
+                  )
+              );
+
+
             services.AddAuthConfig(configuration);
-          
+
             services.AddDatabaseServices(configuration);
             services.AddControllers();
             services.AddSwaggerServices()
@@ -42,7 +50,7 @@ namespace SurveyBasket.DependencyInjection
 
             return services;
         }
-      
+
         public static IServiceCollection AddMapsterConfig(this IServiceCollection services)
         {
             var mappingConfig = TypeAdapterConfig.GlobalSettings;
@@ -51,7 +59,7 @@ namespace SurveyBasket.DependencyInjection
 
             return services;
         }
-        
+
         public static IServiceCollection AddFluentValidationConfig(this IServiceCollection services)
         {
             var mappingConfig = TypeAdapterConfig.GlobalSettings;
@@ -60,7 +68,7 @@ namespace SurveyBasket.DependencyInjection
 
             return services;
         }
-       
+
         public static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -68,11 +76,11 @@ namespace SurveyBasket.DependencyInjection
 
             services.AddSingleton<IJwtProvider, JwtProvider>();
 
-           // services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
-           services.AddOptions<JwtOptions>()
-                .BindConfiguration(JwtOptions.SectionName)
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
+            // services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
+            services.AddOptions<JwtOptions>()
+                 .BindConfiguration(JwtOptions.SectionName)
+                 .ValidateDataAnnotations()
+                 .ValidateOnStart();
 
             var jwtSettings = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
 
@@ -95,7 +103,7 @@ namespace SurveyBasket.DependencyInjection
                         ValidAudience = jwtSettings?.Audience
                     };
                 });
-            
+
 
             return services;
         }
