@@ -5,10 +5,10 @@ namespace SurveyBasket.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class PollsController(IPollService pollService/*, IMapper mapper*/) : ControllerBase
+    public class PollsController(IPollService pollService, IMapper mapper) : ControllerBase
     {
         private readonly IPollService _pollService = pollService;
-        //private readonly IMapper _mapper = mapper;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet()]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
@@ -32,7 +32,7 @@ namespace SurveyBasket.Controllers
         {
             var newPoll = await _pollService.AddAsync(request.Adapt<Poll>(),cancellationToken);
 
-            return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
+            return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll.Adapt<PollResponse>());
         }
 
         [HttpPut("{id}")]
