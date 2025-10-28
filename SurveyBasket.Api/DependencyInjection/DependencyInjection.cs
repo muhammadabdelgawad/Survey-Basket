@@ -1,7 +1,4 @@
-﻿using SurveyBasket.Api.Authentication;
-using System.Text;
-
-namespace SurveyBasket.DependencyInjection
+﻿namespace SurveyBasket.DependencyInjection
 {
     public static class DependencyInjection
     {
