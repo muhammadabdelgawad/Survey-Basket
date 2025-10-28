@@ -14,7 +14,7 @@
 
             return authResult.IsSuccess
                 ? Ok(authResult.Value)
-                : authResult.ToProblem(StatusCodes.Status400BadRequest);
+                : authResult.ToProblem();
         }
 
 
@@ -25,7 +25,7 @@
 
             return authResult.IsSuccess 
                 ? Ok(authResult.Value)
-                : authResult.ToProblem(StatusCodes.Status400BadRequest);
+                : authResult.ToProblem();
         }
 
 
@@ -34,7 +34,7 @@
         {
             var result = await _authService.RevokeRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
 
-            return result.IsSuccess ? Ok() : result.ToProblem(StatusCodes.Status400BadRequest);
+            return result.IsSuccess ? Ok() : result.ToProblem();
         }
         
 

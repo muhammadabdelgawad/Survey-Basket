@@ -25,7 +25,7 @@ namespace SurveyBasket.Controllers
 
             return result.IsSuccess 
                 ? Ok(result.Value)
-                : result.ToProblem(StatusCodes.Status404NotFound);
+                : result.ToProblem();
         }
 
         [HttpPost("")]
@@ -43,7 +43,7 @@ namespace SurveyBasket.Controllers
 
             return result.IsSuccess 
                 ? NoContent()
-                : result.ToProblem(StatusCodes.Status404NotFound);
+                : result.ToProblem();
         }
 
         [HttpDelete("{id}")]
@@ -53,7 +53,7 @@ namespace SurveyBasket.Controllers
 
             return result.IsSuccess 
                 ? NoContent()
-                : result.ToProblem(StatusCodes.Status404NotFound);
+                : result.ToProblem();
         }
 
         [HttpPut("{id}/togglePublish")]
@@ -63,7 +63,7 @@ namespace SurveyBasket.Controllers
 
             return result.IsSuccess
                 ? NoContent()
-                : result.ToProblem(StatusCodes.Status404NotFound);
+                : result.ToProblem();
         }
 
 
