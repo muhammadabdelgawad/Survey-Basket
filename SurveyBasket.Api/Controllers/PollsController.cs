@@ -7,7 +7,7 @@ namespace SurveyBasket.Controllers
     [ApiController]
     [Authorize]
     public class PollsController(IPollService pollService, IMapper mapper) : ControllerBase
-    {
+    { 
         private readonly IPollService _pollService = pollService;
         private readonly IMapper _mapper = mapper;
 
@@ -25,7 +25,8 @@ namespace SurveyBasket.Controllers
         {
             var result = await _pollService.GetAsync(id,cancellationToken);
 
-            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
+            return result.IsSuccess ? Ok(result.Value) 
+                : Problem(statusCode:StatusCodes.Status404NotFound,title:result.Error.Code,detail:result.Error.Descripton);
         }
 
         [HttpPost("")]
@@ -43,7 +44,7 @@ namespace SurveyBasket.Controllers
             if (result.IsFailure)
                 return NotFound();
 
-            return result.IsSuccess ? NoContent() : NotFound(result.Error);
+            return result.IsSuccess ? NoContent() : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Code, detail: result.Error.Descripton);
 
         }
 
