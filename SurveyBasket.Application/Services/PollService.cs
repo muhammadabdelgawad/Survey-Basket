@@ -25,18 +25,19 @@ namespace SurveyBasket.Application.Services
             return poll;
         }
 
-        public async Task<bool> UpdateAsync(int id, Poll poll, CancellationToken cancellationToken = default)
+        public async Task<Result> UpdateAsync(int id, PollRequest poll, CancellationToken cancellationToken = default)
         {
-            var currentPoll = await GetAsync(id,cancellationToken);
+            var currentPoll = await _dbContext.Polls.FindAsync(id, cancellationToken);
             if (currentPoll is null)
-                return false;
+                return Result.Failure(PollErrors.PollNotFound);
+
             currentPoll.Title = poll.Title;
             currentPoll.Summary = poll.Summary;
             currentPoll.StartsAt = poll.StartsAt;
             currentPoll.EndsAt= poll.EndsAt;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
+            return Result.Success();
         }
 
         public async Task<bool> DeleteAsync(int id,CancellationToken cancellationToken)

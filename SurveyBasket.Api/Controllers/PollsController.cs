@@ -39,11 +39,12 @@ namespace SurveyBasket.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, PollRequest request,CancellationToken cancellationToken)
         {
-            var isUpdated = await _pollService.UpdateAsync(id, request.Adapt<Poll>(),cancellationToken);
-            if (!isUpdated)
+            var result = await _pollService.UpdateAsync(id, request,cancellationToken);
+            if (result.IsFailure)
                 return NotFound();
 
-            return NoContent();
+            return result.IsSuccess ? NoContent() : NotFound(result.Error);
+
         }
 
         [HttpDelete("{id}")]
