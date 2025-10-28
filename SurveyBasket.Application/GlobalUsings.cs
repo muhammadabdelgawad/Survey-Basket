@@ -1,0 +1,9 @@
+﻿global using FluentValidation;
+global using Mapster;
+global using SurveyBasket.Application.Abstractions.DTOs.Polls.Requests;
+global using SurveyBasket.Application.Abstractions.DTOs.Auth;
+global using SurveyBasket.Application.Abstractions.ErrorHandling;
+global using SurveyBasket.Application.Abstractions.Repositories.Auth;
+global using Microsoft.AspNetCore.Identity;
+global using SurveyBasket.Application.Abstractions.Abstractions;
+global using SurveyBasket.Entities;

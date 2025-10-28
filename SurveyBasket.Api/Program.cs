@@ -5,15 +5,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDependencies(builder.Configuration);
 
 
-var app = builder.Build(); 
+var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
-    app.UseSwaggerUI(options =>options.SwaggerEndpoint("/openapi/v1.json", "v1"));
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
