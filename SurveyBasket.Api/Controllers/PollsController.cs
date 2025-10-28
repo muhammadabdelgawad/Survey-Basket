@@ -24,8 +24,8 @@ namespace SurveyBasket.Controllers
             var result = await _pollService.GetAsync(id,cancellationToken);
 
             return result.IsSuccess 
-                ? Ok(result.Value) 
-                : Problem(statusCode:StatusCodes.Status404NotFound,title:result.Error.Code,detail:result.Error.Description);
+                ? Ok(result.Value)
+                : result.ToProblem();
         }
 
         [HttpPost("")]
@@ -42,8 +42,8 @@ namespace SurveyBasket.Controllers
             var result = await _pollService.UpdateAsync(id, request, cancellationToken);
 
             return result.IsSuccess 
-                ? NoContent() 
-                : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Code, detail: result.Error.Description);
+                ? NoContent()
+                : result.ToProblem();
         }
 
         [HttpDelete("{id}")]
@@ -52,8 +52,8 @@ namespace SurveyBasket.Controllers
             var result = await _pollService.DeleteAsync(id, cancellationToken);
 
             return result.IsSuccess 
-                ? NoContent() 
-                : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Code, detail: result.Error.Description);
+                ? NoContent()
+                : result.ToProblem();
         }
 
         [HttpPut("{id}/togglePublish")]
@@ -63,7 +63,7 @@ namespace SurveyBasket.Controllers
 
             return result.IsSuccess
                 ? NoContent()
-                : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Code, detail: result.Error.Description);
+                : result.ToProblem();
         }
 
 

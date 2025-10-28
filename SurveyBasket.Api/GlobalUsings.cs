@@ -18,3 +18,4 @@ global using SurveyBasket.Infrastructure;
 global using SurveyBasket.Services;
 global using System.Reflection;
 global using System.Text;
+global using SurveyBasket.Application.Abstractions.Abstractions;
