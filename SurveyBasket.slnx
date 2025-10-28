@@ -1,3 +1,7 @@
 <Solution>
-  <Project Path="SurveyBasket.Api/SurveyBasket.csproj" />
+  <Project Path="SurveyBasket.Api/SurveyBasket.Api.csproj" />
+  <Project Path="SurveyBasket.Application.Abstractions/SurveyBasket.Application.Abstractions.csproj" Id="e5b0752a-d9fb-4fa0-bcd1-cd6642904473" />
+  <Project Path="SurveyBasket.Application/SurveyBasket.Application.csproj" Id="9d9f571a-1dbe-4c25-bb21-30e044b0a0b3" />
+  <Project Path="SurveyBasket.Domain/SurveyBasket.Domain.csproj" Id="cd29de44-a67c-4819-8f68-56521cfaec86" />
+  <Project Path="SurveyBasket.Infrastructure/SurveyBasket.Infrastructure.csproj" Id="655fbd89-a85e-4974-904c-24846f9a97b0" />
 </Solution>
