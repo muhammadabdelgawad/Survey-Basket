@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-
 namespace SurveyBasket.Controllers
 
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class PollsController(IPollService pollService, IMapper mapper) : ControllerBase
-    {
+    public class PollsController(IPollService pollService) : ControllerBase
+    { 
         private readonly IPollService _pollService = pollService;
-        private readonly IMapper _mapper = mapper;
-
+       
         [HttpGet()]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
@@ -23,46 +21,49 @@ namespace SurveyBasket.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute]int id, CancellationToken cancellationToken)
         {
-            var poll = await _pollService.GetAsync(id,cancellationToken);
-            var response = poll.Adapt<PollResponse>();
-            return poll is null ? NotFound() : Ok(response);
+            var result = await _pollService.GetAsync(id,cancellationToken);
+
+            return result.IsSuccess 
+                ? Ok(result.Value) 
+                : Problem(statusCode:StatusCodes.Status404NotFound,title:result.Error.Code,detail:result.Error.Description);
         }
 
         [HttpPost("")]
         public async Task<IActionResult> Add([FromBody] PollRequest request,CancellationToken cancellationToken)
         {
-            var newPoll = await _pollService.AddAsync(request.Adapt<Poll>(),cancellationToken);
+            var newPoll = await _pollService.AddAsync(request, cancellationToken);
 
-            return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll.Adapt<PollResponse>());
+            return CreatedAtAction(nameof(Get), new { id = newPoll.Id }, newPoll);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, PollRequest request,CancellationToken cancellationToken)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] PollRequest request,CancellationToken cancellationToken)
         {
-            var isUpdated = await _pollService.UpdateAsync(id, request.Adapt<Poll>(),cancellationToken);
-            if (!isUpdated)
-                return NotFound();
+            var result = await _pollService.UpdateAsync(id, request, cancellationToken);
 
-            return NoContent();
+            return result.IsSuccess 
+                ? NoContent() 
+                : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Code, detail: result.Error.Description);
         }
 
         [HttpDelete("{id}")]
-        public async  Task<IActionResult> Delete(int id,CancellationToken cancellationToken)
+        public async  Task<IActionResult> Delete([FromRoute] int id,CancellationToken cancellationToken)
         {
-            var isDeleted =await _pollService.DeleteAsync(id,cancellationToken);
-            if (!isDeleted)
-                return NotFound();
-            return NoContent();
+            var result = await _pollService.DeleteAsync(id, cancellationToken);
+
+            return result.IsSuccess 
+                ? NoContent() 
+                : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Code, detail: result.Error.Description);
         }
 
         [HttpPut("{id}/togglePublish")]
-        public async Task<IActionResult> TogglePublish(int id,CancellationToken cancellationToken)
+        public async Task<IActionResult> TogglePublish([FromRoute] int id,CancellationToken cancellationToken)
         {
-            var isUpdated = await _pollService.TogglePublishStatusAsync(id,cancellationToken);
-            if (!isUpdated)
-                return NotFound();
+            var result = await _pollService.TogglePublishStatusAsync(id, cancellationToken);
 
-            return NoContent();
+            return result.IsSuccess
+                ? NoContent()
+                : Problem(statusCode: StatusCodes.Status404NotFound, title: result.Error.Code, detail: result.Error.Description);
         }
 
 
