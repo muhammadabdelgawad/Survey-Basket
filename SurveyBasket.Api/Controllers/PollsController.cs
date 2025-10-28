@@ -23,9 +23,9 @@ namespace SurveyBasket.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute]int id, CancellationToken cancellationToken)
         {
-            var poll = await _pollService.GetAsync(id,cancellationToken);
-            var response = poll.Adapt<PollResponse>();
-            return poll is null ? NotFound() : Ok(response);
+            var result = await _pollService.GetAsync(id,cancellationToken);
+
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
         }
 
         [HttpPost("")]

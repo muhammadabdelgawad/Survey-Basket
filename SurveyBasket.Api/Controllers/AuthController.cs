@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Application.Abstractions.Repositories.Auth;
-
-namespace SurveyBasket.Controllers
+﻿namespace SurveyBasket.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -13,7 +11,7 @@ namespace SurveyBasket.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
             var authResult = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
-            return authResult is null ? BadRequest("Invalid email or password") : Ok(authResult);
+            return authResult.IsSuccess ? Ok(authResult.Value) :BadRequest(authResult.Error);
         }
 
         [HttpPost("refresh")]

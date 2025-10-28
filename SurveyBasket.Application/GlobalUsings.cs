@@ -7,3 +7,6 @@ global using SurveyBasket.Application.Abstractions.Repositories.Auth;
 global using Microsoft.AspNetCore.Identity;
 global using SurveyBasket.Application.Abstractions.Abstractions;
 global using SurveyBasket.Entities;
+global using Microsoft.EntityFrameworkCore;
+global using SurveyBasket.Application.Abstractions.Repositories.Polls;
+global using SurveyBasket.Infrastructure;

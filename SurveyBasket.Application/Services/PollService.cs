@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SurveyBasket.Application.Abstractions.Repositories.Polls;
-using SurveyBasket.Infrastructure;
+﻿
+using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
 
 namespace SurveyBasket.Application.Services
 {
@@ -11,8 +10,13 @@ namespace SurveyBasket.Application.Services
         public async Task<IEnumerable<Poll>> GetAllAsync(CancellationToken cancellationToken =default)
             => await _dbContext.Polls.AsNoTracking().ToListAsync(cancellationToken);
 
-        public async Task<Poll?> GetAsync(int id, CancellationToken cancellationToken=default)
-            =>await  _dbContext.Polls.FindAsync(id, cancellationToken);
+        public async Task<Result<PollResponse>> GetAsync(int id, CancellationToken cancellationToken = default)
+        {
+           var poll= await _dbContext.Polls.FindAsync(id, cancellationToken);
+            return poll is not null
+                ? Result.Success(poll.Adapt<PollResponse>())
+                : Result.Failure<PollResponse>(PollErrors.PollNotFound);
+        }
 
         public async Task<Poll> AddAsync(Poll poll, CancellationToken cancellationToken)
         {
