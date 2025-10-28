@@ -1,14 +1,12 @@
-﻿
-
-namespace SurveyBasket.Application.Abstractions.Repositories.Auth
+﻿namespace SurveyBasket.Application.Abstractions.Repositories.Auth
 {
     public interface IAuthService
     {
         Task<Result<AuthResponse>> GetTokenAsync(string email, string password,
             CancellationToken cancellationToken = default);
-        Task<AuthResponse?> GetRefreshTokenAsync(string token, string refreshToken,
+        Task<Result<AuthResponse>> GetRefreshTokenAsync(string token, string refreshToken,
           CancellationToken cancellationToken = default);
-        Task<bool>RevokeRefreshTokenAsync(string token, string refreshToken,
+        Task<Result>RevokeRefreshTokenAsync(string token, string refreshToken,
           CancellationToken cancellationToken = default);
     }
 }

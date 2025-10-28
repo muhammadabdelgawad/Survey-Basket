@@ -1,4 +1,6 @@
 ﻿
+using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
 
 namespace SurveyBasket.Application.Services
@@ -18,11 +20,12 @@ namespace SurveyBasket.Application.Services
                 : Result.Failure<PollResponse>(PollErrors.PollNotFound);
         }
 
-        public async Task<Poll> AddAsync(Poll poll, CancellationToken cancellationToken)
+        public async Task<PollResponse> AddAsync(PollRequest request, CancellationToken cancellationToken)
         {
+            var poll = request.Adapt<Poll>();
             await _dbContext.Polls.AddAsync(poll, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return poll;
+            return poll.Adapt<PollResponse>();
         }
 
         public async Task<Result> UpdateAsync(int id, PollRequest poll, CancellationToken cancellationToken = default)
@@ -40,24 +43,33 @@ namespace SurveyBasket.Application.Services
             return Result.Success();
         }
 
-        public async Task<bool> DeleteAsync(int id,CancellationToken cancellationToken)
+        public async Task<Result> DeleteAsync(int id,CancellationToken cancellationToken)
         {
-            var poll = await GetAsync(id,cancellationToken);
+
+            var poll = await _dbContext.Polls.FindAsync(id, cancellationToken);
+
             if (poll is null)
-                return false;
+                return Result.Failure(PollErrors.PollNotFound);
+
             _dbContext.Remove(poll);
+
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
+
+            return Result.Success();
         }
 
-        public async Task<bool> TogglePublishStatusAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<Result> TogglePublishStatusAsync(int id, CancellationToken cancellationToken = default)
         {
-            var poll = await GetAsync(id,cancellationToken);
+            var poll = await _dbContext.Polls.FindAsync(id,cancellationToken);
+
             if (poll is null)
-                return false;
+                return Result.Failure(PollErrors.PollNotFound);
+
             poll.IsPublished = !poll.IsPublished;
+
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
+
+            return Result.Success();
 
         }
     }

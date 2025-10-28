@@ -11,20 +11,30 @@
         public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
             var authResult = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
-            return authResult.IsSuccess ? Ok(authResult.Value) :BadRequest(authResult.Error);
+
+            return authResult.IsSuccess
+                ? Ok(authResult.Value) 
+                : Problem(statusCode: StatusCodes.Status400BadRequest, title: authResult.Error.Code, detail: authResult.Error.Description);
         }
+
 
         [HttpPost("refresh")]
         public async Task<IActionResult> RefreshAsync([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             var authResult = await _authService.GetRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
-            return authResult is null ? BadRequest("Invalid Token") : Ok(authResult);
+
+            return authResult.IsSuccess 
+                ? Ok(authResult.Value) 
+                : Problem(statusCode: StatusCodes.Status400BadRequest, title: authResult.Error.Code, detail: authResult.Error.Description);
         }
+
+
         [HttpPost("revoke-refresh-token")]
         public async Task<IActionResult> RevokeRefreshAsync([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
         {
-            var isRevoke = await _authService.RevokeRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
-            return isRevoke ? Ok(): BadRequest("Invalid Token");
+            var result = await _authService.RevokeRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
+
+            return result.IsSuccess ? Ok() : Problem(statusCode: StatusCodes.Status400BadRequest, title: result.Error.Code, detail: result.Error.Description);
         }
         
 
