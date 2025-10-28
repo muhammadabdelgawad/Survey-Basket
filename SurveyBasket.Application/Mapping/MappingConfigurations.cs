@@ -1,5 +1,4 @@
-﻿
-namespace SurveyBasket.Mapping
+﻿namespace SurveyBasket.Application.Mapping
 {
     public class MappingConfigurations : IRegister
     {

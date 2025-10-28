@@ -1,5 +1,4 @@
-﻿
-namespace SurveyBasket.Services
+﻿namespace SurveyBasket.Application.Abstractions.Repositories.Auth
 {
     public interface IAuthService
     {
