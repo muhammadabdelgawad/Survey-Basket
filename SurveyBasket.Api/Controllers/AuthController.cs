@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using SurveyBasket.Authentication;
+﻿using SurveyBasket.Application.Abstractions.Repositories.Auth;
 
 namespace SurveyBasket.Controllers
 {

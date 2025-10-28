@@ -1,3 +1,3 @@
-﻿global using SurveyBasket.Entities;
-global using Microsoft.AspNetCore.Identity;
-global using SurveyBasket.Application.Abstractions.Abstractions;
+﻿global using SurveyBasket.Application.Abstractions.Abstractions;
+global using SurveyBasket.Application.Abstractions.DTOs.Auth;
+global using SurveyBasket.Entities;
