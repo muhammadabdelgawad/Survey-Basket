@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SurveyBasket.Application.Abstractions\SurveyBasket.Application.Abstractions.csproj" />
     <ProjectReference Include="..\SurveyBasket.Domain\SurveyBasket.Domain.csproj" />
+    <ProjectReference Include="..\SurveyBasket.Infrastructure\SurveyBasket.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

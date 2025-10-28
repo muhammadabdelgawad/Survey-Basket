@@ -1,7 +1,8 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
+using SurveyBasket.Application.Abstractions.Repositories.Polls;
+using SurveyBasket.Infrastructure;
 
-
-namespace SurveyBasket.Services
+namespace SurveyBasket.Application.Services
 {
     public class PollService(AppDbContext context) : IPollService
     {

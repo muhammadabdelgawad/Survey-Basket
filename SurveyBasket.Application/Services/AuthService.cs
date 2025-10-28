@@ -1,5 +1,4 @@
-﻿using SurveyBasket.Errors;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 namespace SurveyBasket.Services
 {
