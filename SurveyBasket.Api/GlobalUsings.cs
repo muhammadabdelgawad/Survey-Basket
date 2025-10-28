@@ -13,4 +13,5 @@ global using MapsterMapper;
 global using Microsoft.AspNetCore.Identity;
 global using System.Reflection;
 global using Microsoft.Extensions.Options;
-
+global using SurveyBasket.Abstractions;
+global using SurveyBasket.Authentication; 
