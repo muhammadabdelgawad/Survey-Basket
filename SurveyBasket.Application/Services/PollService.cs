@@ -1,7 +1,4 @@
-﻿
-using Azure.Core;
-using Microsoft.EntityFrameworkCore;
-using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
+﻿using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
 
 namespace SurveyBasket.Application.Services
 {
@@ -20,12 +17,19 @@ namespace SurveyBasket.Application.Services
                 : Result.Failure<PollResponse>(PollErrors.PollNotFound);
         }
 
-        public async Task<PollResponse> AddAsync(PollRequest request, CancellationToken cancellationToken)
+        public async Task<Result<PollResponse>> AddAsync(PollRequest request, CancellationToken cancellationToken = default)
         {
+            var isExistingTitle = await _dbContext.Polls.AnyAsync(x => x.Title == request.Title, cancellationToken: cancellationToken);
+
+            if (isExistingTitle)
+                return Result.Failure<PollResponse>(PollErrors.DuplicatedPollTitle);
+
             var poll = request.Adapt<Poll>();
-            await _dbContext.Polls.AddAsync(poll, cancellationToken);
+
+            await _dbContext.AddAsync(poll, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return poll.Adapt<PollResponse>();
+
+            return Result.Success(poll.Adapt<PollResponse>());
         }
 
         public async Task<Result> UpdateAsync(int id, PollRequest poll, CancellationToken cancellationToken = default)
