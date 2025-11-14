@@ -3,12 +3,12 @@
     public static class UserErrors
     {
         public static readonly Error InvalidCredentials =
-            new("User.InvalidCredentials", "Invalid Email or Password");
+            new("User.InvalidCredentials", "Invalid email/password");
 
         public static readonly Error InvalidJwtToken =
-             new("User.InvalidJwtToken", "Invalid Jwt token");
+            new("User.InvalidJwtToken", "Invalid Jwt token");
 
         public static readonly Error InvalidRefreshToken =
-             new("User.InvalidRefreshToken", "Invalid refresh token");
+            new("User.InvalidRefreshToken", "Invalid refresh token");
     }
 }

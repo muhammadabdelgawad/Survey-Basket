@@ -1,6 +1,4 @@
-﻿
-using Azure.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
 
 namespace SurveyBasket.Application.Services
@@ -20,24 +18,37 @@ namespace SurveyBasket.Application.Services
                 : Result.Failure<PollResponse>(PollErrors.PollNotFound);
         }
 
-        public async Task<PollResponse> AddAsync(PollRequest request, CancellationToken cancellationToken)
+        public async Task<Result<PollResponse>> AddAsync(PollRequest request, CancellationToken cancellationToken = default)
         {
+            var isExistingTitle = await _dbContext.Polls.AnyAsync(x => x.Title == request.Title, cancellationToken: cancellationToken);
+
+            if (isExistingTitle)
+                return Result.Failure<PollResponse>(PollErrors.DuplicatedPollTitle);
+
             var poll = request.Adapt<Poll>();
-            await _dbContext.Polls.AddAsync(poll, cancellationToken);
+
+            await _dbContext.AddAsync(poll, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return poll.Adapt<PollResponse>();
+
+            return Result.Success(poll.Adapt<PollResponse>());
         }
 
-        public async Task<Result> UpdateAsync(int id, PollRequest poll, CancellationToken cancellationToken = default)
+        public async Task<Result> UpdateAsync(int id, PollRequest request, CancellationToken cancellationToken = default)
         {
+            var isExistingTitle = await _dbContext.Polls.AnyAsync(x => x.Title == request.Title && x.Id != id, cancellationToken: cancellationToken);
+
+            if (isExistingTitle)
+                return Result.Failure<PollResponse>(PollErrors.DuplicatedPollTitle);
+
             var currentPoll = await _dbContext.Polls.FindAsync(id, cancellationToken);
+           
             if (currentPoll is null)
                 return Result.Failure(PollErrors.PollNotFound);
 
-            currentPoll.Title = poll.Title;
-            currentPoll.Summary = poll.Summary;
-            currentPoll.StartsAt = poll.StartsAt;
-            currentPoll.EndsAt= poll.EndsAt;
+            currentPoll.Title = request.Title;
+            currentPoll.Summary = request.Summary;
+            currentPoll.StartsAt = request.StartsAt;
+            currentPoll.EndsAt= request.EndsAt;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Result.Success();
