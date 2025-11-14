@@ -1,4 +1,3 @@
-using SurveyBasket.Api.Middleware;
 using SurveyBasket.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,5 +21,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseExceptionHandler();
+
 app.Run();
