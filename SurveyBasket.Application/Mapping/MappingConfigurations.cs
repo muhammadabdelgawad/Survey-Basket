@@ -1,12 +1,12 @@
-﻿namespace SurveyBasket.Application.Mapping
+﻿
+namespace SurveyBasket.Application.Mapping
 {
     public class MappingConfigurations : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<QuestionRequest, Question>()
-                //.Ignore(nameof(Question.Answers));
-               .Map(dest => dest.Answers, src => src.QuestionAnswers.Select(answer => new Answer { Content = answer }));
+                .Map(dest => dest.Answers, src => src.QuestionAnswers.Select(a => new Answer { Content = a}));
         }
     }
 }
