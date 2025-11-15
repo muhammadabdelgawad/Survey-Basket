@@ -25,13 +25,7 @@
             return Result.Success(question.Adapt<QuestionResponse>());
         }
 
-        public Task<Result<QuestionResponse>> UpdateAsync(QuestionRequest request, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public Task<Result<IEnumerable<QuestionResponse>>> GetAllAsync(CancellationToken cancellationToken = default)
+        public Task<Result<IEnumerable<QuestionResponse>>> GetAllAsync(int pollId, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -50,11 +44,20 @@
 
             return Result.Success(question);
         }
+
+       
+        public Task<Result> UpdateAsync(int pollId, int id, QuestionRequest request, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
         public Task Delete(int id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-
+        public Task<Result> ToggleStatusAsync(int pollId, int id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
