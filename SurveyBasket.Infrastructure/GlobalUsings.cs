@@ -5,3 +5,4 @@ global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using System.Reflection;
 global using System.Security.Claims;
+global using SurveyBasket.Domain.Entities;
