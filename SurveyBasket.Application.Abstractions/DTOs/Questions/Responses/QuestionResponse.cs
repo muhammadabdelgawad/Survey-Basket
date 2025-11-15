@@ -1,7 +1,11 @@
-﻿namespace SurveyBasket.Application.Abstractions.DTOs.Questions.Responses
+﻿
+namespace SurveyBasket.Application.Abstractions.DTOs.Questions.Responses
 {
-    public class QuestionResponse
-    {
+    public record QuestionResponse(
+        int Id,
+        string Content
+        IEnumerable<AnswerResponse> Answers
 
-    }
+
+    );
 }

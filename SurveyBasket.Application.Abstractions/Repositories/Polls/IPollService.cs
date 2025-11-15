@@ -1,5 +1,4 @@
-﻿
-namespace SurveyBasket.Application.Abstractions.Repositories.Polls
+﻿namespace SurveyBasket.Application.Abstractions.Repositories.Polls
 {
     public interface IPollService
     {

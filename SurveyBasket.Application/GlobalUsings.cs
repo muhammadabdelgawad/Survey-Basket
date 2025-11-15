@@ -10,3 +10,7 @@ global using SurveyBasket.Entities;
 global using Microsoft.EntityFrameworkCore;
 global using SurveyBasket.Application.Abstractions.Repositories.Polls;
 global using SurveyBasket.Infrastructure;
+global using SurveyBasket.Application.Abstractions.DTOs.Questions.Requests;
+global using SurveyBasket.Application.Abstractions.DTOs.Questions.Responses;
+global using SurveyBasket.Application.Abstractions.Repositories.Questions;
+global using SurveyBasket.Domain.Entities;
