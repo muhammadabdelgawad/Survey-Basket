@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Application.Abstractions.DTOs.Questions.Requests;
-
-namespace SurveyBasket.Application.Validations.Questions
+﻿namespace SurveyBasket.Application.Validations.Questions
 {
     public class QuestionRequestValidator :AbstractValidator<QuestionRequest>
     {
@@ -9,14 +7,19 @@ namespace SurveyBasket.Application.Validations.Questions
             RuleFor(x => x.Content)
                 .NotEmpty()
                 .Length(3,1000);
+            
+            RuleFor(x => x.Answers)
+              .NotNull();
 
             RuleFor(x => x.Answers)
                 .Must(x => x.Count > 1)
-                .WithMessage("Question must have at least 2 answers");
+                .WithMessage("Question must have at least 2 answers")
+                .When(x=>x.Answers != null);
 
             RuleFor(x => x.Answers)
                 .Must(x => x.Distinct().Count() == x.Count)
-                .WithMessage("You cannot add duplicated answers for the same question");
+                .WithMessage("You cannot add duplicated answers for the same question")
+                .When(x => x.Answers != null);
 
 
         }
