@@ -7,7 +7,7 @@ namespace SurveyBasket.Domain.Entities
         public string Content { get; set; } = string.Empty;
 
         public int PollId { get; set; }
-        public bool IsAcvite { get; set; } = true;
+        public bool IsActive { get; set; } = true;
 
         public Poll poll { get; set; } = default!;
 
