@@ -23,7 +23,7 @@
         {
             var authResult = await _authService.GetRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
 
-            return authResult.IsSuccess 
+            return authResult.IsSuccess
                 ? Ok(authResult.Value)
                 : authResult.ToProblem(StatusCodes.Status400BadRequest);
         }
@@ -36,7 +36,7 @@
 
             return result.IsSuccess ? Ok() : result.ToProblem(StatusCodes.Status400BadRequest);
         }
-        
+
 
     }
 }

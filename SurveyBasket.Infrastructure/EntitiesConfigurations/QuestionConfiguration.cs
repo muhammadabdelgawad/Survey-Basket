@@ -1,7 +1,7 @@
 ﻿
 namespace SurveyBasket.Infrastructure.EntitiesConfigurations
 {
-    public class QuestionConfiguration :IEntityTypeConfiguration<Question>
+    public class QuestionConfiguration : IEntityTypeConfiguration<Question>
     {
         public void Configure(EntityTypeBuilder<Question> builder)
         {
@@ -10,6 +10,6 @@ namespace SurveyBasket.Infrastructure.EntitiesConfigurations
 
             builder.HasIndex(q => new { q.PollId, q.Content }).IsUnique();
         }
-    
+
     }
 }

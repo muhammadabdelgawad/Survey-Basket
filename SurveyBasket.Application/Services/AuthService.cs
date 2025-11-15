@@ -1,5 +1,4 @@
-﻿using SurveyBasket.Application.Abstractions.ErrorHandling;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 namespace SurveyBasket.Services
 {
@@ -13,10 +12,10 @@ namespace SurveyBasket.Services
             CancellationToken cancellationToken = default)
         {
             var user = await _userManager.FindByEmailAsync(email);
-         
+
             if (user is null)
                 return Result.Failure<AuthResponse>(UserErrors.InvalidCredentials);
-            
+
             var isValidPassword = await _userManager.CheckPasswordAsync(user, password);
 
             if (!isValidPassword)
@@ -35,7 +34,7 @@ namespace SurveyBasket.Services
             });
             await _userManager.UpdateAsync(user);
 
-            var response= new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName,
+            var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName,
                 token, expiresIn, refreshToken, refreshTokenExpiration);
 
             return Result.Success(response);
@@ -74,8 +73,8 @@ namespace SurveyBasket.Services
 
             await _userManager.UpdateAsync(user);
 
-           var response= new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, newToken, expiresIn, newRefreshToken, refreshTokenExpiration);
-           return Result.Success(response);
+            var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, newToken, expiresIn, newRefreshToken, refreshTokenExpiration);
+            return Result.Success(response);
         }
 
 

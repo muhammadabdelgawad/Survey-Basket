@@ -1,7 +1,4 @@
-﻿
-using SurveyBasket.Domain.Entities;
-
-namespace SurveyBasket.Infrastructure
+﻿namespace SurveyBasket.Infrastructure
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) :
         IdentityDbContext<ApplicationUser>(options)
@@ -16,7 +13,7 @@ namespace SurveyBasket.Infrastructure
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            var cascadeFKs= modelBuilder.Model
+            var cascadeFKs = modelBuilder.Model
                 .GetEntityTypes()
                 .SelectMany(t => t.GetForeignKeys())
                 .Where(fk => fk.DeleteBehavior == DeleteBehavior.Cascade && !fk.IsOwnership);
@@ -30,18 +27,18 @@ namespace SurveyBasket.Infrastructure
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var entries = ChangeTracker.Entries<AuditableEntity>();
-            foreach (var entityEntry in entries) 
+            foreach (var entityEntry in entries)
             {
                 var cureentUserId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
                 if (entityEntry.State == EntityState.Added)
                 {
-                    entityEntry.Property(x=> x.CreatedById).CurrentValue = cureentUserId;
+                    entityEntry.Property(x => x.CreatedById).CurrentValue = cureentUserId;
                 }
                 else if (entityEntry.State == EntityState.Modified)
                 {
-                    entityEntry.Property(x=> x.UpdatedById).CurrentValue = cureentUserId;
-                    entityEntry.Property(x=> x.UpdatedOn).CurrentValue = DateTime.UtcNow;
+                    entityEntry.Property(x => x.UpdatedById).CurrentValue = cureentUserId;
+                    entityEntry.Property(x => x.UpdatedOn).CurrentValue = DateTime.UtcNow;
                 }
 
             }

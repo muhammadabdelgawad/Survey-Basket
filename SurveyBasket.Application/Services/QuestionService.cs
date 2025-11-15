@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace SurveyBasket.Application.Services
+﻿namespace SurveyBasket.Application.Services
 {
     public class QuestionService(AppDbContext dbContext) : IQuestionService
     {
@@ -57,6 +55,6 @@ namespace SurveyBasket.Application.Services
             throw new NotImplementedException();
         }
 
-        
+
     }
 }
