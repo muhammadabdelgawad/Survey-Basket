@@ -6,7 +6,7 @@
         {
             config.NewConfig<QuestionRequest, Question>()
                 //.Ignore(nameof(Question.Answers));
-               .Map(dest => dest.Answers, src => src.Answers.Select(answer => new Answer { Content = answer }));
+               .Map(dest => dest.Answers, src => src.QuestionAnswers.Select(answer => new Answer { Content = answer }));
         }
     }
 }

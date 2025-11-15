@@ -5,6 +5,6 @@ namespace SurveyBasket.Application.Abstractions.DTOs.Questions.Responses
 
         int Id,
         string Content,
-        IEnumerable<AnswerResponse> Answers
+        IEnumerable<AnswerResponse> QuestionAnswers
     );
 }

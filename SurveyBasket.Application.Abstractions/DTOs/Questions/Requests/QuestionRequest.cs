@@ -3,7 +3,7 @@
     public record QuestionRequest(
 
         string Content,
-        List<string> Answers
+        List<string> QuestionAnswers
 
     );
 }
