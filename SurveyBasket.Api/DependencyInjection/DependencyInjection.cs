@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Application.Abstractions.ErrorHandling;
-
-namespace SurveyBasket.DependencyInjection
+﻿namespace SurveyBasket.DependencyInjection
 {
     public static class DependencyInjection
     {
@@ -27,6 +25,7 @@ namespace SurveyBasket.DependencyInjection
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPollService, PollService>();
+            services.AddScoped<IQuestionService, QuestionService>();
 
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
