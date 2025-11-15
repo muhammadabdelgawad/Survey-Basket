@@ -1,6 +1,6 @@
 ﻿namespace SurveyBasket.Domain.Entities
 {
-    public sealed class Answer : AuditableEntity
+    public sealed class Answer 
     {
         public int Id { get; set; }
         public string Content { get; set; } = string.Empty;
