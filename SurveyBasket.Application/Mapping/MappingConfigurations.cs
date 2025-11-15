@@ -6,7 +6,7 @@ namespace SurveyBasket.Application.Mapping
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<QuestionRequest, Question>()
-                .Map(dest => dest.Answers, src => src.QuestionAnswers.Select(a => new Answer { Content = a}));
+               .Map(dest => dest.Answers, src => src.QuestionAnswers.Select(answer => new Answer { Content = answer }));
         }
     }
 }

@@ -86,10 +86,8 @@ namespace SurveyBasket.Application.Services
 
             question.Content = request.Content;
 
-            //current answers
             var currentAnswers = question.Answers.Select(x => x.Content).ToList();
 
-            //add new answer
             var newAnswers = request.QuestionAnswers.Except(currentAnswers).ToList();
 
             newAnswers.ForEach(answer =>
