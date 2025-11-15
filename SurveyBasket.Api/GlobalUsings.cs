@@ -21,3 +21,4 @@ global using System.Text;
 global using SurveyBasket.Application.Abstractions.Abstractions;
 global using SurveyBasket.Application.Abstractions.ErrorHandling;
 global using SurveyBasket.Application.Abstractions.Repositories.Questions;
+global using Microsoft.AspNetCore.Authorization;

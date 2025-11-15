@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using SurveyBasket.Application.Abstractions.ErrorHandling;
-namespace SurveyBasket.Controllers
+﻿namespace SurveyBasket.Controllers
 
 {
     [Route("api/[controller]")]
