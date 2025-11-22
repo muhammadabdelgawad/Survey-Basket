@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using SurveyBasket.Api.Extentions;
+using System.Security.Claims;
 
 namespace SurveyBasket.Api.Controllers
 {
@@ -12,7 +13,7 @@ namespace SurveyBasket.Api.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Start([FromBody] int pollId,CancellationToken cancellationToken)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.GetUserId();
 
             var result = await _questionService.GetAvailableAsync(pollId, userId!, cancellationToken);
 
