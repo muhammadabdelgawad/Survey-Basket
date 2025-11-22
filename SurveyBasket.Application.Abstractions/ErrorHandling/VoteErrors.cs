@@ -2,8 +2,8 @@
 {
     public class VoteErrors
     {
-        //public static readonly Error VoteNotFound =
-        //   new("Vote.NotFound", "No vote was found with given Id");
+        public static readonly Error InvalidQuestions =
+           new("Vote.InvalidQuestions",  " Invalid questions");
 
 
         public static readonly Error DuplicatedVote =

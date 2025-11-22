@@ -14,4 +14,8 @@
     <ProjectReference Include="..\SurveyBasket.Domain\SurveyBasket.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Votes\Response\" />
+  </ItemGroup>
+
 </Project>
