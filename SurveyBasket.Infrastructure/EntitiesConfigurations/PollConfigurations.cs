@@ -10,9 +10,6 @@ namespace SurveyBasket.Persistence.EntitiesConfigurations
             builder.Property(p => p.Title).HasMaxLength(200)
                                            .IsRequired();
             builder.Property(p => p.Summary).HasMaxLength(2000);
-           
-
-
 
 
 

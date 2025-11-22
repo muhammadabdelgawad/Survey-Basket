@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
+﻿using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
 
 namespace SurveyBasket.Application.Services
 {
@@ -7,12 +6,21 @@ namespace SurveyBasket.Application.Services
     {
         private readonly AppDbContext _dbContext = context;
 
-        public async Task<IEnumerable<Poll>> GetAllAsync(CancellationToken cancellationToken =default)
-            => await _dbContext.Polls.AsNoTracking().ToListAsync(cancellationToken);
+        public async Task<IEnumerable<PollResponse>> GetAllAsync(CancellationToken cancellationToken = default)
+            => await _dbContext.Polls.AsNoTracking()
+                                     .ProjectToType<PollResponse>()
+                                     .ToListAsync(cancellationToken);
+
+        public async Task<IEnumerable<PollResponse>> GetCurrentAsync(CancellationToken cancellationToken = default)
+            => await _dbContext.Polls.
+                Where(p => p.IsPublished && p.StartsAt <= DateOnly.FromDateTime(DateTime.UtcNow) && p.EndsAt >=  DateOnly.FromDateTime(DateTime.UtcNow))
+                                     .AsNoTracking()
+                                     .ProjectToType<PollResponse>()
+                                     .ToListAsync(cancellationToken);
 
         public async Task<Result<PollResponse>> GetAsync(int id, CancellationToken cancellationToken = default)
         {
-           var poll= await _dbContext.Polls.FindAsync(id, cancellationToken);
+            var poll = await _dbContext.Polls.FindAsync(id, cancellationToken);
             return poll is not null
                 ? Result.Success(poll.Adapt<PollResponse>())
                 : Result.Failure<PollResponse>(PollErrors.PollNotFound);
@@ -41,20 +49,20 @@ namespace SurveyBasket.Application.Services
                 return Result.Failure<PollResponse>(PollErrors.DuplicatedPollTitle);
 
             var currentPoll = await _dbContext.Polls.FindAsync(id, cancellationToken);
-           
+
             if (currentPoll is null)
                 return Result.Failure(PollErrors.PollNotFound);
 
             currentPoll.Title = request.Title;
             currentPoll.Summary = request.Summary;
             currentPoll.StartsAt = request.StartsAt;
-            currentPoll.EndsAt= request.EndsAt;
+            currentPoll.EndsAt = request.EndsAt;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
             return Result.Success();
         }
 
-        public async Task<Result> DeleteAsync(int id,CancellationToken cancellationToken)
+        public async Task<Result> DeleteAsync(int id, CancellationToken cancellationToken)
         {
 
             var poll = await _dbContext.Polls.FindAsync(id, cancellationToken);
@@ -71,7 +79,7 @@ namespace SurveyBasket.Application.Services
 
         public async Task<Result> TogglePublishStatusAsync(int id, CancellationToken cancellationToken = default)
         {
-            var poll = await _dbContext.Polls.FindAsync(id,cancellationToken);
+            var poll = await _dbContext.Polls.FindAsync(id, cancellationToken);
 
             if (poll is null)
                 return Result.Failure(PollErrors.PollNotFound);

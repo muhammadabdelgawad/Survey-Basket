@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.Application.Abstractions.Repositories.Auth
+﻿using SurveyBasket.Application.Abstractions.DTOs.Auth;
+
+namespace SurveyBasket.Application.Abstractions.Repositories.Auth
 {
     public interface IAuthService
     {
@@ -6,7 +8,7 @@
             CancellationToken cancellationToken = default);
         Task<Result<AuthResponse>> GetRefreshTokenAsync(string token, string refreshToken,
           CancellationToken cancellationToken = default);
-        Task<Result>RevokeRefreshTokenAsync(string token, string refreshToken,
+        Task<Result> RevokeRefreshTokenAsync(string token, string refreshToken,
           CancellationToken cancellationToken = default);
     }
 }

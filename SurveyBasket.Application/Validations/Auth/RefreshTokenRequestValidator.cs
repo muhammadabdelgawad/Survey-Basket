@@ -1,7 +1,7 @@
 ﻿
 namespace SurveyBasket.Application.Validations.Auth
 {
-    public class RefreshTokenRequestValidator:AbstractValidator<RefreshTokenRequest>
+    public class RefreshTokenRequestValidator : AbstractValidator<RefreshTokenRequest>
     {
         public RefreshTokenRequestValidator()
         {

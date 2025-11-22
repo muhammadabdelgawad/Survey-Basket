@@ -27,8 +27,8 @@ namespace SurveyBasket.Application.Validations.Polls
 
         }
         private bool HasValidDate(PollRequest pollRequest)
-        { 
-            return pollRequest.EndsAt >= pollRequest.StartsAt; 
+        {
+            return pollRequest.EndsAt >= pollRequest.StartsAt;
         }
-    } 
+    }
 }

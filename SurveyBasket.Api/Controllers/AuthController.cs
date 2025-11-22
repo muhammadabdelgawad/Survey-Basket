@@ -12,9 +12,7 @@
         {
             var authResult = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
 
-            return authResult.IsSuccess
-                ? Ok(authResult.Value)
-                : authResult.ToProblem(StatusCodes.Status400BadRequest);
+            return authResult.IsSuccess? Ok(authResult.Value) : authResult.ToProblem();
         }
 
 
@@ -23,9 +21,8 @@
         {
             var authResult = await _authService.GetRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
 
-            return authResult.IsSuccess 
-                ? Ok(authResult.Value)
-                : authResult.ToProblem(StatusCodes.Status400BadRequest);
+            return authResult.IsSuccess
+                ? Ok(authResult.Value) : authResult.ToProblem();
         }
 
 
@@ -34,9 +31,9 @@
         {
             var result = await _authService.RevokeRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
 
-            return result.IsSuccess ? Ok() : result.ToProblem(StatusCodes.Status400BadRequest);
+            return result.IsSuccess ? Ok() : result.ToProblem();
         }
-        
+
 
     }
 }

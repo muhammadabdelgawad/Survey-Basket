@@ -8,5 +8,5 @@
         DateOnly StartsAt,
         DateOnly EndsAt
     );
-   
+
 }

@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace SurveyBasket.Authentication
 {
@@ -20,11 +17,11 @@ namespace SurveyBasket.Authentication
                 new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             ];
-            
+
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
 
             var signingCredintials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
-            
+
 
             var token = new JwtSecurityToken(
                 issuer: _jwtOptions.Issuer,
@@ -34,12 +31,12 @@ namespace SurveyBasket.Authentication
                 signingCredentials: signingCredintials
 
                 );
-            return (token:new JwtSecurityTokenHandler().WriteToken(token),expiresIn: _jwtOptions.DurationInMinutes * 60);
+            return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: _jwtOptions.DurationInMinutes * 60);
         }
 
         public string? ValidateToken(string token)
         {
-            var tokenHandler= new JwtSecurityTokenHandler();
+            var tokenHandler = new JwtSecurityTokenHandler();
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
             try
             {
@@ -55,7 +52,7 @@ namespace SurveyBasket.Authentication
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 return jwtToken.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value;
             }
-            catch 
+            catch
             {
                 return null;
             }
