@@ -13,12 +13,10 @@ namespace SurveyBasket.Application.Services
 
         public async Task<IEnumerable<PollResponse>> GetCurrentAsync(CancellationToken cancellationToken = default)
             => await _dbContext.Polls.
-                Where(p => p.IsPublished && p.StartsAt <= DateOnly.FromDateTime(DateTime.UtcNow) && p.EndsAt >=  DateOnly.FromDateTime(DateTime.UtcNow)).AsNoTracking()
+                Where(p => p.IsPublished && p.StartsAt <= DateOnly.FromDateTime(DateTime.UtcNow) && p.EndsAt >=  DateOnly.FromDateTime(DateTime.UtcNow))
+                                     .AsNoTracking()
                                      .ProjectToType<PollResponse>()
                                      .ToListAsync(cancellationToken);
-
-        
-
 
         public async Task<Result<PollResponse>> GetAsync(int id, CancellationToken cancellationToken = default)
         {
