@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Application.Abstractions.DTOs.Votes.Request;
-
-namespace SurveyBasket.Application.Validations.Vote
+﻿namespace SurveyBasket.Application.Validations.Vote
 {
     public class VoteRequestValidator : AbstractValidator<VoteRequest>
     {
@@ -9,6 +7,12 @@ namespace SurveyBasket.Application.Validations.Vote
             RuleFor(x => x.Answers)
                 .NotNull()
                 .WithMessage("Answers cannot be null");
+
+
+            RuleForEach(x => x.Answers)
+                .SetInheritanceValidator(v =>
+                v.Add(new VoteAnswerRequestValidator())
+                );
         }
     }
 }
