@@ -114,7 +114,7 @@ namespace SurveyBasket.Application.Services
 
             var currentAnswers = question.Answers.Select(x => x.Content).ToList();
 
-            var newAnswers = request.QuestionAnswers.Except(currentAnswers).ToList();
+            var newAnswers = request.Answers.Except(currentAnswers).ToList();
 
             newAnswers.ForEach(answer =>
             {
@@ -123,7 +123,7 @@ namespace SurveyBasket.Application.Services
 
             question.Answers.ToList().ForEach(answer =>
             {
-                answer.IsActive = request.QuestionAnswers.Contains(answer.Content);
+                answer.IsActive = request.Answers.Contains(answer.Content);
             });
 
             await _dbContext.SaveChangesAsync(cancellationToken);
