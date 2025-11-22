@@ -1,4 +1,4 @@
-﻿using SurveyBasket.Application.Abstractions.DTOs.Polls.Answers;
+﻿using SurveyBasket.Application.Abstractions.DTOs.Answers;
 
 namespace SurveyBasket.Application.Services
 {
@@ -91,6 +91,7 @@ namespace SurveyBasket.Application.Services
             return Result.Success(question.Adapt<QuestionResponse>());
         }
 
+
         public async Task<Result> UpdateAsync(int pollId, int id, QuestionRequest request, CancellationToken cancellationToken = default)
         {
             var questionIsExists = await _dbContext.Questions
@@ -114,7 +115,7 @@ namespace SurveyBasket.Application.Services
 
             var currentAnswers = question.Answers.Select(x => x.Content).ToList();
 
-            var newAnswers = request.Answers.Except(currentAnswers).ToList();
+            var newAnswers = request.QuestionAnswers.Except(currentAnswers).ToList();
 
             newAnswers.ForEach(answer =>
             {
@@ -123,7 +124,7 @@ namespace SurveyBasket.Application.Services
 
             question.Answers.ToList().ForEach(answer =>
             {
-                answer.IsActive = request.Answers.Contains(answer.Content);
+                answer.IsActive = request.QuestionAnswers.Contains(answer.Content);
             });
 
             await _dbContext.SaveChangesAsync(cancellationToken);

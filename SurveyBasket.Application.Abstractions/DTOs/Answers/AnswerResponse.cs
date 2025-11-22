@@ -1,9 +1,7 @@
-﻿namespace SurveyBasket.Application.Abstractions.DTOs.Polls.Answers
+﻿namespace SurveyBasket.Application.Abstractions.DTOs.Answers
 {
     public record AnswerResponse(
-
         int Id,
         string Content
-
      );
 }
