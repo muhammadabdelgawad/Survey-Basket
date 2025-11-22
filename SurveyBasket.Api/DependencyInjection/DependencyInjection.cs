@@ -1,4 +1,7 @@
 ﻿using SurveyBasket.Application.Abstractions.Repositories.Vote;
+using SurveyBasket.Application.Mapping;
+using SurveyBasket.Application.Validations.Questions;
+using FluentValidation;
 
 namespace SurveyBasket.DependencyInjection
 {
@@ -16,11 +19,10 @@ namespace SurveyBasket.DependencyInjection
 
 
             services.AddAuthConfig(configuration);
-
             services.AddDatabaseServices(configuration);
             services.AddControllers();
             services.AddSwaggerServices()
-                    .AddMapsterConfig()
+                    .AddMapsterConfig()  // Keep Mapster only
                     .AddFluentValidationConfig();
 
             services.AddOpenApi();
@@ -53,21 +55,23 @@ namespace SurveyBasket.DependencyInjection
             return services;
         }
 
+        // Mapster Configuration
         public static IServiceCollection AddMapsterConfig(this IServiceCollection services)
         {
             var mappingConfig = TypeAdapterConfig.GlobalSettings;
-            mappingConfig.Scan(Assembly.GetExecutingAssembly());
+            // Scan the Application assembly where MappingConfigurations is located
+            mappingConfig.Scan(Assembly.GetAssembly(typeof(MappingConfigurations))!);
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
             return services;
         }
 
+        // FluentValidation Configuration
         public static IServiceCollection AddFluentValidationConfig(this IServiceCollection services)
         {
-            var mappingConfig = TypeAdapterConfig.GlobalSettings;
-            mappingConfig.Scan(Assembly.GetExecutingAssembly());
-            services.AddSingleton<IMapper>(new Mapper(mappingConfig));
-
+            // Configure FluentValidation to scan the assembly containing validators
+            services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(QuestionRequestValidator))!);
+            
             return services;
         }
 

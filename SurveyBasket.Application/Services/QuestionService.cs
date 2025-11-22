@@ -1,10 +1,13 @@
 ﻿using SurveyBasket.Application.Abstractions.DTOs.Answers;
+using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
+using AutoMapper;
 
 namespace SurveyBasket.Application.Services
 {
-    public class QuestionService(AppDbContext dbContext) : IQuestionService
+    public class QuestionService(AppDbContext dbContext) : IQuestionService  // Remove IMapper parameter
     {
         private readonly AppDbContext _dbContext = dbContext;
+        // Remove: private readonly IMapper _mapper = mapper;
 
 
         public async Task<Result<IEnumerable<QuestionResponse>>> GetAllAsync(int pollId, CancellationToken cancellationToken = default)
@@ -82,13 +85,20 @@ namespace SurveyBasket.Application.Services
             if (questionIsExists)
                 return Result.Failure<QuestionResponse>(QuestionErrors.DuplicatedQuestionContent);
 
+            // ✅ Use Mapster (via extension method)
             var question = request.Adapt<Question>();
             question.PollId = pollId;
 
             await _dbContext.AddAsync(question, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return Result.Success(question.Adapt<QuestionResponse>());
+            // Reload the question with answers to get the generated IDs
+            var savedQuestion = await _dbContext.Questions
+                .Include(q => q.Answers)
+                .FirstAsync(q => q.Id == question.Id, cancellationToken);
+
+            // ✅ Use Mapster
+            return Result.Success(savedQuestion.Adapt<QuestionResponse>());
         }
 
 
