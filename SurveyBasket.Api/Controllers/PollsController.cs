@@ -13,6 +13,8 @@
         {
             return Ok(await _pollService.GetAllAsync(cancellationToken));
         }
+
+
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrent(CancellationToken cancellationToken)
         {
@@ -25,9 +27,7 @@
         {
             var result = await _pollService.GetAsync(id, cancellationToken);
 
-            return result.IsSuccess
-             ? Ok(result.Value)
-             : result.ToProblem(StatusCodes.Status404NotFound);
+            return result.IsSuccess? Ok(result.Value): result.ToProblem();
         }
 
         [HttpPost("")]
@@ -37,7 +37,7 @@
 
             return result.IsSuccess
            ? CreatedAtAction(nameof(Get), new { id = result.Value.Id }, result.Value)
-           : result.ToProblem(StatusCodes.Status409Conflict);
+           : result.ToProblem();
         }
 
         [HttpPut("{id}")]
@@ -45,12 +45,7 @@
         {
             var result = await _pollService.UpdateAsync(id, request, cancellationToken);
 
-            if (result.IsSuccess)
-                return NoContent();
-
-            return result.Error.Equals(PollErrors.DuplicatedPollTitle)
-                    ? result.ToProblem(StatusCodes.Status409Conflict)
-                    : result.ToProblem(StatusCodes.Status404NotFound);
+            return result.IsSuccess ? NoContent() : result.ToProblem();
         }
 
         [HttpDelete("{id}")]
@@ -58,9 +53,7 @@
         {
             var result = await _pollService.DeleteAsync(id, cancellationToken);
 
-            return result.IsSuccess
-                ? NoContent()
-                : result.ToProblem(StatusCodes.Status404NotFound);
+            return result.IsSuccess ? NoContent(): result.ToProblem();
         }
 
         [HttpPut("{id}/togglePublish")]
@@ -68,9 +61,7 @@
         {
             var result = await _pollService.TogglePublishStatusAsync(id, cancellationToken);
 
-            return result.IsSuccess
-                ? NoContent()
-                : result.ToProblem(StatusCodes.Status404NotFound);
+            return result.IsSuccess? NoContent(): result.ToProblem();
         }
 
 
