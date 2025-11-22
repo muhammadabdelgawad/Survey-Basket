@@ -8,10 +8,15 @@
     {
         private readonly IPollService _pollService = pollService;
 
-        [HttpGet()]
+        [HttpGet("")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             return Ok(await _pollService.GetAllAsync(cancellationToken));
+        }
+        [HttpGet("current")]
+        public async Task<IActionResult> GetCurrent(CancellationToken cancellationToken)
+        {
+            return Ok(await _pollService.GetCurrentAsync(cancellationToken));
         }
 
 
