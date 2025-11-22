@@ -11,9 +11,7 @@
         [HttpGet()]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var polls = await _pollService.GetAllAsync(cancellationToken);
-            var response = polls.Adapt<IEnumerable<PollResponse>>();
-            return Ok(response);
+            return Ok(await _pollService.GetAllAsync(cancellationToken));
         }
 
 
